@@ -1,0 +1,15 @@
+.bgblue {
+    text-align:center;
+    padding:6px; 
+    color:#fff; 
+    border-radius:5px;
+    height: 36;
+}
+
+div > span{
+    color:red;
+}
+
+div > input {
+    border-radius: 5px;
+}
