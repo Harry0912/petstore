@@ -22,4 +22,8 @@ use App\Http\Controllers\api\NewsController;
 
 Route::get('/', [IndexController::class, 'index']);
 Route::post('/update/{id}', [IndexController::class, 'update']);
-Route::post('/news/add', [NewsController::class, 'store']);
+Route::prefix('news')->group(function() {
+    Route::post('/add', [NewsController::class, 'store']);
+    Route::post('/update/{id}', [NewsController::class, 'update']);
+    Route::delete('/delete/{id}', [NewsController::class, 'destroy']);
+});

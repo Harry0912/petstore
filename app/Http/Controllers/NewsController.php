@@ -8,15 +8,24 @@ use App\Models\NewsModel;
 class NewsController extends Controller
 {
     public function index() {
-        $news = NewsModel::all();
+        $data = NewsModel::orderBy('news_id', 'desc')->get();
 
         return view('back/news/news_table', [
-            'news' => $news
+            'news' => $data
         ]);
     }
 
     public function create()
     {
-        return view('back/news/news_add');
+        return view('back/news/news_info');
+    }
+
+    public function edit($id)
+    {
+        $data = NewsModel::find($id);
+        
+        return view('back/news/news_info', [
+            'news' => $data
+        ]);
     }
 }
