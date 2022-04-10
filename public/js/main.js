@@ -2,7 +2,8 @@
 function success_alert(msg) {
     Swal.fire({
         title : msg,
-        icon : 'success'
+        icon : 'success',
+        timer : 1500
     });
 }
 
@@ -50,59 +51,7 @@ function errorMessage(msg)
     });
 }
 
-//csrf
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-    }
-});
-
-$('#btnEdit').click(function() {
-    $('#infoList').hide();
-    $('#editForm').show();
-});
-
-$('#editForm').on('submit', function(e) {
-    e.preventDefault();
-
-    let formData = new FormData($(this)[0]);
-
-    $.ajax({
-        url: '/api/update/1',
-        method: 'post',
-        data: formData,
-        contentType: false,
-        processData: false,
-        success: function(response) {
-            success_alert('修改完成!');
-            setTimeout(function() {
-                // $('#infoList').show();
-                // $('#editForm').hide();
-            }, 1500);
-        }
-    });
-});
-
-$('#newsForm').on('submit', function(e) {
-    e.preventDefault();
-
-    let formData = new FormData($(this)[0]);
-
-    $.ajax({
-        url: '/api/news/add',
-        method: 'post',
-        data: formData,
-        contentType : false,
-        processData: false,
-        success: function(response) {
-            console.log(response);
-            console.log(JSON.stringify(response));
-            // return false;
-        }
-    });
-});
-
-//產品圖片上傳同步顯示於img中
+//圖片上傳同步顯示於img中
 $('input[name="news_image"]').change(function(e) {
     readURL(e.target);
 });
@@ -116,3 +65,74 @@ function readURL(input){
         reader.readAsDataURL(input.files[0]);
     }
 }
+
+//csrf
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+    }
+});
+
+// $('#btnEdit').click(function() {
+//     $('#infoList').hide();
+//     $('#editForm').show();
+// });
+
+//首頁資訊編輯
+$('#editForm').on('submit', function(e) {
+    e.preventDefault();
+
+    let formData = new FormData($(this)[0]);
+
+    $.ajax({
+        url: '/api/update/1',
+        method: 'post',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+            success_alert('修改完成!');
+        }
+    });
+});
+
+//最新消息新增、編輯
+$('#newsForm').on('submit', function(e) {
+    e.preventDefault();
+
+    let formData = new FormData($(this)[0]);
+    let news_id = $('#news_id').val();
+    let url = '/api/news/add';
+    if (news_id != '') url = '/api/news/update/'+news_id;
+
+    $.ajax({
+        url: url,
+        method: 'post',
+        data: formData,
+        contentType : false,
+        processData: false,
+        success: function(response) {
+            success_alert('儲存成功!');
+            setTimeout(function() {
+                location.href = '/news/table';
+            }, 1500);
+        },
+        error: function(xhr) {
+            errorMessage(xhr);
+        }
+    });
+});
+
+//最新消息刪除
+$('a[name="news_delete"]').each(function() {
+    $(this).click(function(e) {
+        e.preventDefault();
+        
+        let msg = '確定要刪除"'+$(this).parent().prev().prev().prev().text()+'"消息?';
+        let url = '/api' + $(this).attr('href');
+        let id = $(this).attr('href').split('/')[3];
+        let returnUrl = '/news/table';
+
+        warning_alert(msg, url, id, returnUrl);
+    });
+});

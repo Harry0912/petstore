@@ -11,7 +11,7 @@
     <body>
         <div class="container">
             <div class="row" style="border-bottom-color: gray; border-bottom-style: solid;">
-                <div class="col-1"><a href="#" class="btn btn-secondary btn-sm">前台</div></a>
+                <div class="col-1" style="padding: 5px;"><a href="#" class="btn btn-secondary btn-sm">前台</div></a>
             </div>
             <div class="row">
                 <div class="col-2" style="border-right-color: gray; border-right-style: solid;">

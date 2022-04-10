@@ -9,11 +9,11 @@
     <div class="row">
         <table class="table table-primary table-striped table-bordered">
             <tr class="table-light">
-                <th class="col-1"><input class="form-check-input" type="checkbox"></th>
+                <th class="col-1"><input class="form-check-input" id="checkAll" type="checkbox"></th>
                 <th class="col-3">標題</th>
-                <th class="col-5">簡述</th>
+                <th class="col-4">簡述</th>
                 <th class="col-2">發布日期</th>
-                <th class="col-1"></th>
+                <th class="col-2"></th>
             </tr>
             @foreach($news as $key => $value)
             <tr>
@@ -22,8 +22,8 @@
                 <td class="text-truncate" style="max-width: 150px;">{{ $value->news_intro }}</td>
                 <td class="text-truncate" style="max-width: 150px;">{{ $value->news_time }}</td>
                 <td>
-                    <a href="news/edit/{{ $value->news_id }}"><i class="fa-solid fa-pen-to-square"></i></a>
-                    <a href="news/delete/{{ $value->news_id }}"><i class="fa-solid fa-trash-can"></i></i></a>
+                    <a class="btn btn-primary" href="/news/edit/{{ $value->news_id }}"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a class="btn btn-danger" name="news_delete" href="/news/delete/{{ $value->news_id }}"><i class="fa-solid fa-trash-can"></i></a>
                 </td>
             </tr>
             @endforeach

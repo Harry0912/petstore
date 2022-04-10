@@ -23,4 +23,5 @@ Route::get('/', [IndexController::class, 'index']);
 Route::prefix('news')->group(function() {
     Route::get('/table', [NewsController::class, 'index']);
     Route::get('/add', [NewsController::class, 'create']);
+    Route::get('/edit/{id}', [NewsController::class, 'edit']);
 });
