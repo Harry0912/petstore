@@ -58,7 +58,7 @@ class NewsController extends Controller
 
     public function destroy($id)
     {
-        $data = NewsModel::find($id)->delete();
+        $data = NewsModel::destroy($id);
 
         return response()->json(null, 204);
     }

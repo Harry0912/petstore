@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\ContactController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,9 +20,20 @@ use App\Http\Controllers\NewsController;
 //     return view('welcome');
 // });
 
+//前、後端
 Route::get('/', [IndexController::class, 'index']);
+Route::get('/control',[IndexController::class, 'show']);
+
+//最新消息
 Route::prefix('news')->group(function() {
     Route::get('/table', [NewsController::class, 'index']);
     Route::get('/add', [NewsController::class, 'create']);
     Route::get('/edit/{id}', [NewsController::class, 'edit']);
+    Route::get('/list', [NewsController::class, 'list']);
+    Route::get('/show/{id}', [NewsController::class, 'show']);
+});
+
+//聯絡我們
+Route::prefix('contact')->group(function() {
+    Route::get('/form', [ContactController::class, 'index']);
 });

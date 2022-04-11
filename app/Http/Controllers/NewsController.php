@@ -28,4 +28,22 @@ class NewsController extends Controller
             'news' => $data
         ]);
     }
+
+    public function list()
+    {
+        $data = NewsModel::orderBy('news_id', 'desc')->get();
+
+        return view('front/news/news_list', [
+            'news' => $data
+        ]);
+    }
+
+    public function show($id)
+    {
+        $data = NewsModel::find($id);
+
+        return view('front/news/news_show', [
+            'news' => $data
+        ]);
+    }
 }

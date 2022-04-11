@@ -11,12 +11,13 @@
     <body>
         <div class="container">
             <div class="row" style="border-bottom-color: gray; border-bottom-style: solid;">
-                <div class="col-1" style="padding: 5px;"><a href="#" class="btn btn-secondary btn-sm">前台</div></a>
+                <div class="col-11"></div>
+                <div class="col-1" style="padding: 5px;"><a href="/" class="btn btn-secondary btn-sm">前台</a></div>
             </div>
             <div class="row">
                 <div class="col-2" style="border-right-color: gray; border-right-style: solid;">
                     <br>
-                    <p><a href="/" class="link-success"><i class="fa fa-home" aria-hidden="true"></i> 首頁</a></p>
+                    <p><a href="/control" class="link-success"><i class="fa fa-home" aria-hidden="true"></i> 首頁</a></p>
                     <p><a href="/news/table" class="link-success"><i class="fa fa-sticky-note" aria-hidden="true"></i> 最新消息</a></p>
                     <p><a href="#" class="link-success"><i class="fa fa-star" aria-hidden="true"></i> 產品</a></p>
                     <p><a href="#" class="link-success"><i class="fa fa-share-alt" aria-hidden="true"></i> 產品分類</a></p>

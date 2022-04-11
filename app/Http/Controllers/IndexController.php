@@ -14,9 +14,9 @@ class IndexController extends Controller
      */
     public function index()
     {
-        $data = IndexModel::find(1);
+        $data = IndexModel::find(1)->first();
 
-        return view('back/home', [
+        return view('front/index', [
             'data' => $data
         ]);
     }
@@ -45,12 +45,15 @@ class IndexController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        //
+        $data = IndexModel::find(1);
+
+        return view('back/home', [
+            'data' => $data
+        ]);
     }
 
     /**

@@ -6,7 +6,7 @@
     height: 36px;
 }
 
-div > span{
+span{
     color:red;
 }
 
@@ -16,9 +16,11 @@ div > input {
 
 a {
     text-decoration: none;
+    color: black;
 }
 
 table
 {
     text-align: center;
+    vertical-align: middle;
 }

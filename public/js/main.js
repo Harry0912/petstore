@@ -8,7 +8,7 @@ function success_alert(msg) {
 }
 
 //刪除彈跳視窗
-function warning_alert(msg, url, id, returnUrl) {
+function warning_alert(msg, url, returnUrl) {
     Swal.fire({
         title: msg,
         icon: 'warning',
@@ -22,7 +22,6 @@ function warning_alert(msg, url, id, returnUrl) {
             $.ajax({
                 url: url,
                 method: 'delete',
-                data: {'id' : id},
                 success: function() {
                     Swal.fire(
                         '刪除成功'
@@ -96,6 +95,14 @@ $('#editForm').on('submit', function(e) {
     });
 });
 
+$('#checkAll').click(function() {
+    if ($(this).prop('checked')) {
+        $('input[type="checkbox"]').prop('checked', true);
+    } else {
+        $('input[type="checkbox"]').prop('checked', false);
+    }
+});
+
 //最新消息新增、編輯
 $('#newsForm').on('submit', function(e) {
     e.preventDefault();
@@ -130,9 +137,42 @@ $('a[name="news_delete"]').each(function() {
         
         let msg = '確定要刪除"'+$(this).parent().prev().prev().prev().text()+'"消息?';
         let url = '/api' + $(this).attr('href');
-        let id = $(this).attr('href').split('/')[3];
         let returnUrl = '/news/table';
 
-        warning_alert(msg, url, id, returnUrl);
+        warning_alert(msg, url, returnUrl);
     });
+});
+
+$('#btnDelete').click(function() {
+    let news_id_array = [];
+    $('input[type="checkbox"]').not($('#checkAll')).each(function() {
+        if ($(this).prop('checked')) {
+            news_id_array.push($(this).val());
+        }
+    });
+
+    if (news_id_array.length == 0) {
+        Swal.fire({
+            title : '尚未勾選任何消息',
+            icon : 'error',
+            timer : 1500
+        });
+    } else {
+        let msg = '確定要刪除勾選的消息?';
+        let url = '/api/news/delete/'+news_id_array;
+        let returnUrl = '/news/table';
+        
+        warning_alert(msg, url, returnUrl);
+
+        // $.ajax({
+        //     url: '/api/news/delete/'+news_id_array,
+        //     method: 'delete',
+        //     success: function() {
+        //         success_alert('刪除成功!');
+        //         setTimeout(function() {
+        //             location.href = '/news/table';
+        //         }, 1500);
+        //     }
+        // });
+    }
 });
