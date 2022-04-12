@@ -143,6 +143,7 @@ $('a[name="news_delete"]').each(function() {
     });
 });
 
+//多筆刪除
 $('#btnDelete').click(function() {
     let news_id_array = [];
     $('input[type="checkbox"]').not($('#checkAll')).each(function() {
@@ -175,4 +176,59 @@ $('#btnDelete').click(function() {
         //     }
         // });
     }
+});
+
+//聯絡我們-發送mail
+$('#contactForm').on('submit', function(e) {
+    e.preventDefault();
+
+    let formData = new FormData($(this)[0]);
+    let url = '/api/contact/send';
+
+    $.ajax({
+        url: url,
+        method: 'post',
+        data: formData,
+        contentType : false,
+        processData: false,
+        success: function(response) {
+            success_alert('信件寄出成功!');
+            setTimeout(function() {
+                location.href = '/contact/form';
+            }, 1500);
+        }
+    });
+});
+
+$('#replyForm').on('submit', function(e) {
+    e.preventDefault();
+
+    let formData = new FormData($(this)[0]);
+    let url = '/api/contact/reply';
+
+    $.ajax({
+        url: url,
+        method: 'post',
+        data: formData,
+        contentType : false,
+        processData: false,
+        success: function() {
+            success_alert('回覆信件寄出成功!');
+            setTimeout(function() {
+                location.reload();
+            }, 1500);
+        }
+    });
+});
+
+$('a[name="contact_delete"]').each(function() {
+    $(this).click(function(e) {
+        e.preventDefault();
+
+        let msg = '確定要刪除留言??';
+        let url = '/api' + $(this).attr('href');
+        let returnUrl = '/contact/table';
+
+        warning_alert(msg, url, returnUrl);
+    });
 });

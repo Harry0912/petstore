@@ -7,10 +7,11 @@ use App\Models\NewsModel;
 
 class NewsController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         $data = NewsModel::orderBy('news_id', 'desc')->get();
 
-        return view('back/news/news_table', [
+        return view('front/news/news_list', [
             'news' => $data
         ]);
     }
@@ -29,11 +30,10 @@ class NewsController extends Controller
         ]);
     }
 
-    public function list()
-    {
+    public function table() {
         $data = NewsModel::orderBy('news_id', 'desc')->get();
 
-        return view('front/news/news_list', [
+        return view('back/news/news_table', [
             'news' => $data
         ]);
     }

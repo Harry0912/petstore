@@ -21,13 +21,15 @@
                     <p><a href="/news/table" class="link-success"><i class="fa fa-sticky-note" aria-hidden="true"></i> 最新消息</a></p>
                     <p><a href="#" class="link-success"><i class="fa fa-star" aria-hidden="true"></i> 產品</a></p>
                     <p><a href="#" class="link-success"><i class="fa fa-share-alt" aria-hidden="true"></i> 產品分類</a></p>
-                    <p><a href="#" class="link-success"><i class="fa fa-commenting" aria-hidden="true"></i> 聯絡我們</a></p>
+                    <p><a href="/contact/table" class="link-success"><i class="fa fa-commenting" aria-hidden="true"></i> 聯絡我們</a></p>
                 </div>
                 <div class="col-10">
                     <br>
                     @yield('home')
                     @yield('news_table')
                     @yield('news_add')
+                    @yield('contact_table')
+                    @yield('contact_info')
                 </div>
             </div>
         </div>
