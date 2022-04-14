@@ -2,8 +2,7 @@
 function success_alert(msg) {
     Swal.fire({
         title : msg,
-        icon : 'success',
-        timer : 1500
+        icon : 'success'
     });
 }
 
@@ -51,7 +50,7 @@ function errorMessage(msg)
 }
 
 //圖片上傳同步顯示於img中
-$('input[name="news_image"]').change(function(e) {
+$('input[name="news_image"], input[name="product_image"]').change(function(e) {
     readURL(e.target);
 });
 
@@ -59,7 +58,7 @@ function readURL(input){
     if(input.files && input.files[0]){
         var reader = new FileReader();
         reader.onload = function (e) {
-            $("#news_img").attr('src', e.target.result);
+            $("#news_img, #product_img").attr('src', e.target.result);
         }
         reader.readAsDataURL(input.files[0]);
     }
@@ -71,11 +70,6 @@ $.ajaxSetup({
         'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
     }
 });
-
-// $('#btnEdit').click(function() {
-//     $('#infoList').hide();
-//     $('#editForm').show();
-// });
 
 //首頁資訊編輯
 $('#editForm').on('submit', function(e) {
@@ -120,9 +114,9 @@ $('#newsForm').on('submit', function(e) {
         processData: false,
         success: function(response) {
             success_alert('儲存成功!');
-            setTimeout(function() {
-                location.href = '/news/table';
-            }, 1500);
+            // setTimeout(function() {
+            //     location.href = '/news/table';
+            // }, 1500);
         },
         error: function(xhr) {
             errorMessage(xhr);
@@ -143,7 +137,7 @@ $('a[name="news_delete"]').each(function() {
     });
 });
 
-//多筆刪除
+//最新消息多筆刪除
 $('#btnDelete').click(function() {
     let news_id_array = [];
     $('input[type="checkbox"]').not($('#checkAll')).each(function() {
@@ -178,6 +172,27 @@ $('#btnDelete').click(function() {
     }
 });
 
+//最新消息搜尋
+$('#newsSearch').on('submit', function(e) {
+    e.preventDefault();
+
+    let formData = new FormData($(this)[0]);
+    let keyword = $('input[name="news_keyword"]').val().trim();
+    let url = '/news/search/' + keyword;
+
+    $.ajax({
+        url: url,
+        method: 'post',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+            $('body').html(response);
+            if (keyword != '') $('input[name="news_keyword"]').val(keyword);
+        }
+    });
+});
+
 //聯絡我們-發送mail
 $('#contactForm').on('submit', function(e) {
     e.preventDefault();
@@ -200,6 +215,7 @@ $('#contactForm').on('submit', function(e) {
     });
 });
 
+//聯絡我們-信件回覆
 $('#replyForm').on('submit', function(e) {
     e.preventDefault();
 
@@ -221,6 +237,7 @@ $('#replyForm').on('submit', function(e) {
     });
 });
 
+//聯絡我們刪除
 $('a[name="contact_delete"]').each(function() {
     $(this).click(function(e) {
         e.preventDefault();
@@ -230,5 +247,123 @@ $('a[name="contact_delete"]').each(function() {
         let returnUrl = '/contact/table';
 
         warning_alert(msg, url, returnUrl);
+    });
+});
+
+//產品分類新增
+$('#typeAddForm').on('submit', function(e) {
+    e.preventDefault();
+
+    let formData = new FormData($(this)[0]);
+    let url = '/api/type/add';
+
+    $.ajax({
+        url: url,
+        method: 'post',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function() {
+            success_alert('新增成功!');
+            setTimeout(function() {
+                location.reload();
+            }, 1500);
+        }
+    });
+});
+
+//產品分類編輯
+$('#typeForm').on('submit',function(e) {
+    e.preventDefault();
+
+    let formData = new FormData($(this)[0]);
+    let url = '/api/type/update';
+
+    $.ajax({
+        url: url,
+        type: 'post',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+            success_alert('儲存成功!');
+            // setTimeout(function() {
+            //     location.reload();
+            // }, 1500);
+        }
+    });
+});
+
+//產品分類刪除
+$('a[name="type_delete"]').each(function() {
+    $(this).click(function(e) {
+        e.preventDefault();
+
+        let msg = '確定要刪除"'+$(this).parent().prev().find('input[name="type_name[]"]').val()+'"分類?';
+        let url = $(this).attr('href');
+        let returnUrl = '/type';
+
+        warning_alert(msg, url, returnUrl);
+    });
+});
+
+//產品新增、編輯
+$('#productForm').on('submit', function(e) {
+    e.preventDefault();
+
+    let formData = new FormData($(this)[0]);
+    let url = '/api/product/add';
+    let id = $('#product_id').val();
+    if (id != '') url = '/api/product/update/'+id;
+
+    $.ajax({
+        url: url,
+        method: 'post',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function() {
+            success_alert('儲存成功!');
+            // setTimeout(function() {
+            //     location.href = '/product/table';
+            // }, 1500);
+        },
+        error: function(xhr) {
+            errorMessage(xhr);
+        }
+    });
+});
+
+//產品刪除
+$('a[name="product_delete"]').each(function() {
+    $(this).click(function(e) {
+        e.preventDefault();
+
+        let msg = '確定要刪除"'+$(this).parent().prev().text()+'"產品?';
+        let url = '/api' + $(this).attr('href');
+        let returnUrl = '/product/table';
+
+        warning_alert(msg, url, returnUrl);
+    });
+});
+
+//產品搜尋
+$('#productSearch').on('submit', function(e) {
+    e.preventDefault();
+
+    let formData = new FormData($(this)[0]);
+    let keyword = $('input[name="product_keyword"]').val();
+    let url = '/product/search/' + keyword;
+
+    $.ajax({
+        url: url,
+        method: 'post',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(data) {
+            $('body').html(data);
+            $('input[name="product_keyword"]').val(keyword);
+        }
     });
 });

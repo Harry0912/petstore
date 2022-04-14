@@ -2,6 +2,7 @@
 
 @section('contact_info')
 <div class="container">
+    <div class="row"><a href="/contact/table" class="col-2 btn btn-success">回上一頁</a></div><br>
     <form id="replyForm">
         <div class="row">
             <div class="col-2 bg-info bgblue"><label class="form-label" for="name">填表人</label></div>

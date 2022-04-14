@@ -2,10 +2,10 @@
 
 @section('main')
     <div class="row">
-        <div class="col-4">
+        <div class="col-md-4 col-sm-12">
             <img src="{{ asset('images/about.jpg') }}" class="img-fluid rounded-start">
         </div>
-        <div class="col-8">
+        <div class="col-md-8 col-sm-12">
             <h4>{{ $data->title }}</h4><br>
             <p><i class="fa fa-phone" aria-hidden="true"></i> : {{ $data->tel }}</p>
             <p><i class="fa fa-fax" aria-hidden="true"></i> : {{ $data->fax }}</p>
