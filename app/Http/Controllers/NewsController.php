@@ -46,4 +46,17 @@ class NewsController extends Controller
             'news' => $data
         ]);
     }
+
+    public function search($keyword = '')
+    {
+        if ($keyword == '') {
+            $data = NewsModel::orderBy('news_id', 'desc')->get();
+        } else {
+            $data = NewsModel::where('news_title', 'like', '%'.$keyword.'%')->orderBy('news_id', 'desc')->get();
+        }
+
+        return view('front/news/news_list', [
+            'news' => $data
+        ]);
+    }
 }

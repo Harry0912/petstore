@@ -15,7 +15,7 @@ class NewsController extends Controller
         $intro = trim($request->news_intro);
         $time = $request->news_time;
         $content = trim($request->news_content);
-        $image = $request->news_image->store('upload/news', 'public');
+        $image = ($request->news_image)?$request->news_image->store('upload/news', 'public'):null;
 
         $data = NewsModel::create([
             'news_title' => $title,
@@ -61,5 +61,12 @@ class NewsController extends Controller
         $data = NewsModel::destroy($id);
 
         return response()->json(null, 204);
+    }
+
+    public function search($keyword)
+    {
+        $data = NewsModel::where('news_title', 'like', '%'.$keyword.'%')->get();
+
+        return $data;
     }
 }

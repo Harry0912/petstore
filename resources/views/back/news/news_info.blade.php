@@ -1,6 +1,6 @@
 @extends('back/layouts/main')
 
-@section('news_add')
+@section('news_info')
 <div class="container">
     <div class="row">
         <a href="/news/table" class="col-2 btn btn-success">回上一頁</a>
